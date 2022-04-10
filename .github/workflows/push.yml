@@ -20,7 +20,7 @@ jobs:
           diff=$(git diff --name-only -z ${source} ${GITHUB_SHA} | xargs -0 -n 1 find -L * -samefile)
           echo files changed:
           echo "${diff}"
-          echo "::set-output name=matrix::$(echo "${diff}\n${symlinks}" | grep -v .github | grep / | cut -d/ -f 1-2 | sort -u | jq -R . | jq -s -c .)"
+          echo "::set-output name=matrix::$(echo "${diff}" | grep -v .github | grep / | cut -d/ -f 1-2 | sort -u | jq -R . | jq -s -c .)"
   build:
     runs-on: ubuntu-latest
     needs: changes

@@ -16,6 +16,6 @@ RUN mkdir -p /home/ganache && chown -R ganache:ganache /home/ganache
 USER ganache
 WORKDIR /home/ganache
 
-COPY --from=builder /home/ganache/node_modules ./node_modules
+COPY --from=builder /home/ganache/node_modules node_modules
 
 ENTRYPOINT ["/home/ganache/node_modules/.bin/ganache"]
