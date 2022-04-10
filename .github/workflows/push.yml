@@ -18,7 +18,7 @@ jobs:
           fi
           echo "source: ${source}"
           git fetch origin ${source} --depth=1
-          changes=$(git diff --name-only -z ${source} ${GITHUB_SHA} | xargs -0 -n 1 find -L * -samefile)
+          changes=$(git diff --name-only -z ${source} ${GITHUB_SHA} | xargs -0 -n 1 find -L . -samefile | sed 's|^\./||')
           echo files changed:
           echo "${changes}"
           if [[ "${changes}" =~ .github ]]; then
