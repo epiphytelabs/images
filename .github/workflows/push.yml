@@ -21,11 +21,10 @@ jobs:
           changes=$(git diff --name-only -z ${source} ${GITHUB_SHA} | xargs -0 -n 1 find -L . -samefile | sed 's|^\./||')
           echo files changed:
           echo "${changes}"
-          if [[ "${changes}" =~ .github ]]; then
-            images=$(find * -mindepth 1 -maxdepth 1)
-          else
-            images=$(echo "${changes}" | grep / | cut -d/ -f 1-2 | sort -u)
-          fi
+          case "${changes}" in
+            .*) images=$(find * -mindepth 1 -maxdepth 1)                         # dotfile changes rebuild all images
+             *) images=$(echo "${changes}" | grep / | cut -d/ -f 1-2 | sort -u)  # otherwise build affected images
+          esac
           echo images affected:
           echo "${images}"
           json=$(echo "${images}" | jq -R . | jq -s -c .)
@@ -37,11 +36,14 @@ jobs:
     strategy:
       matrix:
         image: ${{ fromJSON(needs.changes.outputs.images) }}
-    env:
-      TAG:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Lint
+        uses: hadolint/hadolint-action@v2.1.0
+        with:
+          config: .hadolint.yml
+          dockerfile: "${{ matrix.image }}/Dockerfile"
       - name: Generate tag
         id: tag
         run: |
