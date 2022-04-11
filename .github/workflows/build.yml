@@ -1,5 +1,9 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 name: build
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+  pull_request:
 jobs:
   changes:
     runs-on: ubuntu-latest
@@ -11,8 +15,8 @@ jobs:
       - name: Build matrix of changes paths
         id: diff
         run: |
-          if [ $GITHUB_BASE_REF ]; then
-            source=${GITHUB_BASE_REF}
+          if [ "${{ github.base_ref }}" ]; then
+            source=${{ github.event.pull_request.base.sha }}
           else
             source=${{ github.event.before }}
           fi
@@ -30,7 +34,7 @@ jobs:
           json=$(echo "${images}" | jq -R . | jq -s -c .)
           echo "json: ${json}"
           echo "::set-output name=images::${json}"
-  build:
+  image:
     runs-on: ubuntu-latest
     needs: changes
     strategy:
@@ -69,3 +73,11 @@ jobs:
           tags: ${{ steps.tag.outputs.tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+  status:
+    runs-on: ubuntu-latest
+    if: always()
+    needs: image
+    steps:
+      - name: Check for failure
+        if: needs.image.result != 'success'
+        run: exit 1
