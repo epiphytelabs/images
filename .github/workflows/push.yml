@@ -11,8 +11,8 @@ jobs:
       - name: Build matrix of changes paths
         id: diff
         run: |
-          if [ $GITHUB_BASE_REF ]; then
-            source=${GITHUB_BASE_REF}
+          if [ "${{ github.base_ref }}" ]; then
+            source=${{ github.base_ref }}
           else
             source=${{ github.event.before }}
           fi
