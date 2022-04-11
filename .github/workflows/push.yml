@@ -1,5 +1,5 @@
 name: build
-on: [push, pull_request]
+on: push
 jobs:
   changes:
     runs-on: ubuntu-latest
@@ -11,13 +11,7 @@ jobs:
       - name: Build matrix of changes paths
         id: diff
         run: |
-          if [ $GITHUB_BASE_REF ]; then
-            source=${GITHUB_BASE_REF}
-          else
-            source=${{ github.event.before }}
-          fi
-          echo "source: ${source}"
-          git fetch origin ${source} --depth=1
+          git fetch origin ${{ github.event.before }} --depth=1
           changes=$(git diff --name-only -z ${source} ${GITHUB_SHA} | xargs -0 -n 1 find -L . -samefile | sed 's|^\./||')
           echo files changed:
           echo "${changes}"
