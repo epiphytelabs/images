@@ -11,7 +11,11 @@ jobs:
       - name: Build matrix of changes paths
         id: diff
         run: |
-          source=${{ github.event.before }}
+          if [ $GITHUB_BASE_REF ]; then
+            source=${GITHUB_BASE_REF}
+          else
+            source=${{ github.event.before }}
+          fi
           echo "source: ${source}"
           git fetch origin ${source} --depth=1
           changes=$(git diff --name-only -z ${source} ${GITHUB_SHA} | xargs -0 -n 1 find -L . -samefile | sed 's|^\./||')
