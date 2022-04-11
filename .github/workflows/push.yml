@@ -22,8 +22,8 @@ jobs:
           echo files changed:
           echo "${changes}"
           case "${changes}" in
-            .*) images=$(find * -mindepth 1 -maxdepth 1)                         # dotfile changes rebuild all images
-             *) images=$(echo "${changes}" | grep / | cut -d/ -f 1-2 | sort -u)  # otherwise build affected images
+            .*) images=$(find * -mindepth 1 -maxdepth 1)                        ;; # dotfile changes rebuild all images
+             *) images=$(echo "${changes}" | grep / | cut -d/ -f 1-2 | sort -u) ;; # otherwise build affected images
           esac
           echo images affected:
           echo "${images}"
