@@ -45,7 +45,6 @@ jobs:
           dockerfile: "${{ matrix.image }}/Dockerfile"
           failure-threshold: style
           no-color: true
-          verbose: true
       - name: Generate tag
         id: tag
         run: |
