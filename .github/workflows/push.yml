@@ -40,11 +40,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Lint
-        uses: hadolint/hadolint-action@v2.1.0
+        uses: jbergstroem/hadolint-gh-action@v1
         with:
+          annotate: true
           dockerfile: "${{ matrix.image }}/Dockerfile"
-          failure-threshold: style
-          no-color: true
+          error_level: 2
+          output_format: tty
       - name: Generate tag
         id: tag
         run: |
