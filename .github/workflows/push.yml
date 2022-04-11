@@ -44,8 +44,6 @@ jobs:
         with:
           config: .hadolint.yml
           dockerfile: "${{ matrix.image }}/Dockerfile"
-          failure-threshold: style
-          no-color: true
       - name: Generate tag
         id: tag
         run: |

@@ -1,2 +1,4 @@
+failure-threshold: style
 ignored:
   - DL3008
+no-color: true
