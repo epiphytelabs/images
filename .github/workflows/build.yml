@@ -76,7 +76,6 @@ jobs:
   status:
     runs-on: ubuntu-latest
     if: always()
-    name: Status
     needs: image
     steps:
       - name: Check for failure
