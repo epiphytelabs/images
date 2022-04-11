@@ -16,7 +16,7 @@ jobs:
         id: diff
         run: |
           if [ "${{ github.base_ref }}" ]; then
-            source=${{ github.event.pull_request.head.ref }}
+            source=${{ github.event.pull_request.head.sha }}
           else
             source=${{ github.event.before }}
           fi
