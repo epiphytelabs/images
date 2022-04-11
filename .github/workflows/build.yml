@@ -80,5 +80,5 @@ jobs:
     needs: image
     steps:
       - name: Check for failure
-        if: needs.image.result != "success"
+        if: needs.image.result != 'success'
         run: exit 1
