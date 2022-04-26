@@ -16,4 +16,4 @@ USER ganache
 
 COPY --from=builder /home/ganache/node_modules node_modules
 
-ENTRYPOINT ["/home/ganache/node_modules/.bin/ganache"]
+ENTRYPOINT ["/home/ganache/node_modules/.bin/ganache", "--server.host", "0.0.0.0"]
