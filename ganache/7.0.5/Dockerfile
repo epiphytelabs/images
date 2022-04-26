@@ -1,5 +1,8 @@
 FROM node:14-slim@sha256:f4e1b2eb7056213b394434a23d119523ed6171e54b1e7eff16fa0d86057395a9 AS builder
 
+LABEL io.whalebrew.config.networks '["host"]'
+LABEL io.whalebrew.config.ports '["8545:8545"]'
+
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential=12.3 python=2.7.13-2 && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/ganache
